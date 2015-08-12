@@ -169,8 +169,8 @@ export default Ember.ContainerView.extend(ListViewMixin, {
   /**
     The following block of code contains all forked modifications
   */
-  setupScollActionListner: Ember.on('didInsertElement', function () {
-    Ember.$(this.element).on('scroll', () => {
+  setupScrollActionListner: Ember.on('didInsertElement', function () {
+    Ember.$(this.element).on('scroll', function() {
       this.sendScrollChange();
     });
   }),
