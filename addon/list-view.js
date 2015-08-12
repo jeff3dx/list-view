@@ -163,5 +163,39 @@ export default Ember.ContainerView.extend(ListViewMixin, {
         height: height
       });
     }
+  },
+
+
+  /**
+    The following block of code contains all forked modifications
+  */
+  setupScollActionListner: Ember.on('didInsertElement', function () {
+    Ember.$(this.element).on('scroll', () => {
+      this.sendScrollChange();
+    });
+  }),
+
+  heightChange: Ember.observer('height', 'totalHeight', function() {
+    this.sendScrollChange();
+  }),
+
+  sendScrollChange: function() {
+    var scrollTop = this.element.scrollTop;
+    var height = this.get('height');
+    var totalHeight = this.get('totalHeight');
+    var positionPercentage = scrollTop / (totalHeight - height);
+    var data = {
+      scrollTop: scrollTop,
+      height: height,
+      totalHeight: totalHeight,
+      positionPercentage: positionPercentage
+    };
+
+    if(this.onScrollFn) {
+      this.onScrollFn(data);
+    } else {
+      this.send('on-scroll', data);
+    }
   }
+
 });
