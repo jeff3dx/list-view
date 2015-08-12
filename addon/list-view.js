@@ -139,6 +139,7 @@ export default Ember.ContainerView.extend(ListViewMixin, {
   scrollTo: function(y) {
     this._scrollTo(y);
     this._scrollContentTo(y);
+    this.sendScrollChange();
   },
 
   totalHeightDidChange: Ember.observer(function () {
@@ -166,15 +167,7 @@ export default Ember.ContainerView.extend(ListViewMixin, {
   },
 
 
-  /**
-    The following block of code contains all forked modifications
-  */
-  setupScrollActionListner: Ember.on('didInsertElement', function () {
-    Ember.$(this.element).on('scroll', function() {
-      this.sendScrollChange();
-    });
-  }),
-
+  // scroll event modifications
   heightChange: Ember.observer('height', 'totalHeight', function() {
     this.sendScrollChange();
   }),
